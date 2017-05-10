@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <canvas id="myChart" width="400" height="400"></canvas>
+
+  <script type="text/javascript" src="node_modules/chart.js/dist/Chart.min.js"></script>
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript">
+  var ctx = document.getElementById("myChart");
+
+  $.getJSON( "data.json", function( datas ) {
+
+    var divider = 10000000
+
+    var newData = []
+    for(var i = 0; i < datas.length; i++) {
+      var object = {
+        x: datas[i].x,
+        y: datas[i].y,
+        r: datas[i].y / divider + 3
+      }
+      console.log(object)
+      newData.push(object);
+    }
+    var datas = {
+      datasets: [
+        {
+          data: newData,
+          backgroundColor:"#FF6384",
+          hoverBackgroundColor: "#FF6384"
+        }]
+    };
+    console.log(datas, 'datas');
+    var myBubbleChart = new Chart(ctx,{
+      type: 'bubble',
+      data: datas,
+      options: {
+        legend: {
+          display: false
+        },
+        tooltips: {
+          enabled: false
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              callback: function(value, index, values) {
+                return value / 1000000 + " М";
+              }
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              callback: function(value, index, values) {
+                return value / 1000000 + " М";
+              }
+            }
+          }]
+        }
+      }
+    });
+  });
+
+  </script>
+</body>
+</html>

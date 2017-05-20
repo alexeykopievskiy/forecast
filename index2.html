@@ -12,15 +12,37 @@
 
   <script type="text/javascript" src="node_modules/chart.js/dist/Chart.min.js"></script>
   <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.js"></script>
   <script type="text/javascript">
   var ctx = document.getElementById("myChart");
 
-  function sortByKey(array, key) {
-    return array.sort(function(a, b) {
-        var x = a[key]; var y = b[key];
-        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-    });
+  function compareX(a, b) {
+  // Use toUpperCase() to ignore character casing
+  var a1 = a.x;
+  var a2 = b.x;
+
+  var comparison = 0;
+  if (a1 > a2) {
+    comparison = 1;
+  } else if (a1 < a2) {
+    comparison = -1;
   }
+  return comparison;
+}
+
+function compareY(a, b) {
+// Use toUpperCase() to ignore character casing
+var a1 = a.y;
+var a2 = b.y;
+
+var comparison = 0;
+if (a1 > a2) {
+  comparison = 1;
+} else if (a1 < a2) {
+  comparison = -1;
+}
+return comparison;
+}
 
   $.getJSON( "data_test.json", function( datas ) {
 
@@ -33,23 +55,22 @@
         y: datas[i].y,
         r: datas[i].y / divider + 3
       }
-      console.log('x: ' + object.x + ' y: ' + object.y + ' r: ' + object.r);
+      //console.log('x: ' + object.x + ' y: ' + object.y + ' r: ' + object.r);
       newData.push(object);
-
-      /*for(var j = i; j < datas.length; j++) {
-        var res = Math.sqrt(Math.pow(datas[j].x - datas[i].x, 2) + Math.pow(datas[j].y - datas[i].y, 2))
-        console.log(res, i, j, 'res i j');
-      }*/
     }
-    console.log(xArr, 'xArr');
-    console.log(yArr, 'yArr');
+
+    var sortByX = _.sortBy(newData, [function(o) { return o.x }])
+    var sortByY = _.sortBy(newData, [function(o) { return o.y }])
+
+    console.log(sortByX, 'sortByX');
+    console.log(sortByY, 'sortByY');
     for(var i = 0; i < newData.length; i++) {
       var sum = newData[i].x + newData[i].y
-      console.log(sum, 'sum');
-      var diffX = newData[i + 1].x - newData[i].x
-      console.log(diffX, 'diffX');
-      var diffY = newData[i + 1].y - newData[i].y
-      console.log(diffY, 'diffY');
+      //console.log(sum, 'sum');
+      //var diffX = newData[i + 1].x - newData[i].x
+      //console.log(diffX, 'diffX');
+      //var diffY = newData[i + 1].y - newData[i].y
+      //console.log(diffY, 'diffY');
     }
     var datas = {
       datasets: [

@@ -12,6 +12,7 @@
 
   <script type="text/javascript" src="node_modules/chart.js/dist/Chart.min.js"></script>
   <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  
   <script type="text/javascript">
   var ctx = document.getElementById("myChart");
 
@@ -42,6 +43,7 @@
           hoverBackgroundColor: "#FF6384"
         }]
     };
+
     var myBubbleChart = new Chart(ctx,{
       type: 'bubble',
       data: datas,

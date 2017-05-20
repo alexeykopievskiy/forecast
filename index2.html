@@ -64,13 +64,19 @@ return comparison;
 
     console.log(sortByX, 'sortByX');
     console.log(sortByY, 'sortByY');
-    for(var i = 0; i < newData.length; i++) {
-      var sum = newData[i].x + newData[i].y
-      //console.log(sum, 'sum');
-      //var diffX = newData[i + 1].x - newData[i].x
-      //console.log(diffX, 'diffX');
-      //var diffY = newData[i + 1].y - newData[i].y
-      //console.log(diffY, 'diffY');
+    for(var i = 1; i < newData.length; i++) {
+      var diffX = sortByX[i].x - sortByX[i - 1].x
+      console.log(diffX, 'diffX');
+      var diffY = sortByY[i].y - sortByY[i - 1].y
+      console.log(diffY, 'diffY');
+      console.log(sortByX[i], sortByX[i - 1], 'sortByX');
+      console.log(sortByY[i], sortByY[i - 1], 'sortByY');
+      if((diffX < 1200000) && (diffY < 1200000)) {
+        console.log('lololololololololololol');
+        console.log(_.find(newData, { 'x': sortByX[i].x }), 'find');
+        console.log(_.find(newData, { 'x': sortByX[i - 1].x }), 'find');
+      }
+      console.log('-----------------------');
     }
     var datas = {
       datasets: [
@@ -88,7 +94,7 @@ return comparison;
           display: false
         },
         tooltips: {
-          enabled: false
+          enabled: true
         },
         scales: {
           yAxes: [{

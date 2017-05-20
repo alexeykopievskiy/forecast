@@ -15,7 +15,14 @@
   <script type="text/javascript">
   var ctx = document.getElementById("myChart");
 
-  $.getJSON( "new.json", function( datas ) {
+  function sortByKey(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+  }
+
+  $.getJSON( "data_test.json", function( datas ) {
 
     var divider = 10000000
 
@@ -33,6 +40,16 @@
         var res = Math.sqrt(Math.pow(datas[j].x - datas[i].x, 2) + Math.pow(datas[j].y - datas[i].y, 2))
         console.log(res, i, j, 'res i j');
       }*/
+    }
+    console.log(xArr, 'xArr');
+    console.log(yArr, 'yArr');
+    for(var i = 0; i < newData.length; i++) {
+      var sum = newData[i].x + newData[i].y
+      console.log(sum, 'sum');
+      var diffX = newData[i + 1].x - newData[i].x
+      console.log(diffX, 'diffX');
+      var diffY = newData[i + 1].y - newData[i].y
+      console.log(diffY, 'diffY');
     }
     var datas = {
       datasets: [

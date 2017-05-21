@@ -62,21 +62,33 @@ return comparison;
     var sortByX = _.sortBy(newData, [function(o) { return o.x }])
     var sortByY = _.sortBy(newData, [function(o) { return o.y }])
 
-    console.log(sortByX, 'sortByX');
-    console.log(sortByY, 'sortByY');
+    //console.log(sortByX, 'sortByX');
+    //console.log(sortByY, 'sortByY');
     for(var i = 1; i < newData.length; i++) {
       var diffX = sortByX[i].x - sortByX[i - 1].x
-      console.log(diffX, 'diffX');
+      //console.log(diffX, 'diffX');
       var diffY = sortByY[i].y - sortByY[i - 1].y
-      console.log(diffY, 'diffY');
-      console.log(sortByX[i], sortByX[i - 1], 'sortByX');
-      console.log(sortByY[i], sortByY[i - 1], 'sortByY');
-      if((diffX < 1200000) && (diffY < 1200000)) {
+      //console.log(diffY, 'diffY');
+      //console.log(sortByX[i], sortByX[i - 1], 'sortByX');
+      //console.log(sortByY[i], sortByY[i - 1], 'sortByY');
+      if((diffX < 1200000)) {
+        /*console.log(i, 'counter');
         console.log('lololololololololololol');
-        console.log(_.find(newData, { 'x': sortByX[i].x }), 'find');
-        console.log(_.find(newData, { 'x': sortByX[i - 1].x }), 'find');
+        console.log(sortByX[i], sortByX[i - 1], 'sortByX');
+        console.log(sortByY[i], sortByY[i - 1], 'sortByY');*/
+        /*console.log(_.find(newData, { 'x': sortByX[i].x }), 'find');
+        console.log(_.find(newData, { 'x': sortByX[i - 1].x }), 'find');*/
+        var dist = Math.sqrt(Math.pow((sortByX[i].x - sortByX[i - 1].x), 2) + Math.pow((sortByX[i].y - sortByX[i - 1].y), 2))
+        //console.log(dist, 'dist');
+
+        //if(dist < 2500000) { ?????
+        if(dist < 3000000) {
+          console.log('yeah!!!!!');
+          console.log(dist, 'dist');
+          console.log(sortByX[i], sortByX[i - 1], 'sortByX');
+          console.log(sortByY[i], sortByY[i - 1], 'sortByY');
+        }
       }
-      console.log('-----------------------');
     }
     var datas = {
       datasets: [

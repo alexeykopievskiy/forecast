@@ -59,6 +59,8 @@ return comparison;
       newData.push(object);
     }
 
+    console.log(newData, 'newData');
+
     var sortByX = _.sortBy(newData, [function(o) { return o.x }])
     var sortByY = _.sortBy(newData, [function(o) { return o.y }])
 
@@ -87,6 +89,11 @@ return comparison;
           console.log(dist, 'dist');
           console.log(sortByX[i], sortByX[i - 1], 'sortByX');
           console.log(sortByY[i], sortByY[i - 1], 'sortByY');
+
+          console.log(_.find(newData, { 'x': sortByX[i].x }), 'find x');
+          console.log(_.find(newData, { 'x': sortByX[i - 1].x }), 'find x-1');
+          console.log(_.findIndex(newData, { 'x': sortByX[i].x }), 'findIndex x');
+          console.log(_.findIndex(newData, { 'x': sortByX[i - 1].x }), 'findIndex x-1');
         }
       }
     }

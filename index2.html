@@ -66,6 +66,8 @@ return comparison;
 
     //console.log(sortByX, 'sortByX');
     //console.log(sortByY, 'sortByY');
+
+    var obj
     for(var i = 1; i < newData.length; i++) {
       var diffX = sortByX[i].x - sortByX[i - 1].x
       //console.log(diffX, 'diffX');
@@ -94,9 +96,27 @@ return comparison;
           console.log(_.find(newData, { 'x': sortByX[i - 1].x }), 'find x-1');
           console.log(_.findIndex(newData, { 'x': sortByX[i].x }), 'findIndex x');
           console.log(_.findIndex(newData, { 'x': sortByX[i - 1].x }), 'findIndex x-1');
+
+          var midX = (sortByX[i].x + sortByX[i - 1].x) / 2
+          var midY = (sortByX[i].y + sortByX[i - 1].y) / 2
+
+          console.log(midX, midY, 'mid');
+
+          obj = {
+            x: midX,
+            y: midY,
+            r: 15
+          }
+
+          console.log(newData, 'hjvh,jb,hk.j,hvkj');
+
         }
       }
     }
+
+    console.log(obj, 'onbfnf');
+    newData.push(obj)
+
     var datas = {
       datasets: [
         {

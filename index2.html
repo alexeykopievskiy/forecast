@@ -15,50 +15,169 @@
 </head>
 <body>
 
-  <canvas id="myChart" width="400" height="400"></canvas>
+  <div style="width: 1000px; height: 1000px;">
+    <canvas id="myChart1" width="400" height="400"></canvas>
+  </div>
+  <div style="width: 1000px; height: 1000px;">
+    <canvas id="myChart2" width="400" height="400"></canvas>
+  </div>
 
   <script type="text/javascript" src="node_modules/chart.js/dist/Chart.min.js"></script>
   <script src="node_modules/jquery/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.js"></script>
   <script type="text/javascript">
-  var ctx = document.getElementById("myChart");
+  var ctx1 = document.getElementById("myChart1");
+  var ctx2 = document.getElementById("myChart2");
 
-  ctx.width = 800
-  ctx.height = 800
-
-  var datas = []
+  // 1st chart
+  var datas1 = []
   for(var i = 0; i < 500; i++) {
     var object = {
       x: i + (Math.random() + 1) * (Math.random() * 110),
       y: i + (Math.random() + 1) * (Math.random() * 140)
     }
-    datas.push(object)
+    datas1.push(object)
   }
 
-    var divider = 10000000
-
-
-  var newData = []
-  for(var i = 0; i < datas.length; i++) {
+  // 2nd chart
+  var datas2 = []
+  for(var i = 0; i < 500; i++) {
     var object = {
-      x: datas[i].x,
-      y: datas[i].y,
-      r: datas[i].y / divider + 3
+      x: i + (Math.random() + 1) * (Math.random() * 110),
+      y: i + (Math.random() + 1) * (Math.random() * 140)
     }
-    newData.push(object);
+    datas2.push(object)
   }
 
-  var datas = {
+  var divider1 = 10000000
+  var divider2 = 80
+
+
+  // 1st chart
+  var newData1 = []
+  for(var i = 0; i < datas1.length; i++) {
+    var object = {
+      x: datas1[i].x,
+      y: datas1[i].y,
+      r: datas1[i].y / divider1 + 3
+    }
+    newData1.push(object);
+  }
+
+  // 2nd chart
+  var newData2 = []
+  console.log(datas2, 'jhk');
+  for(var i = 0; i < datas2.length; i++) {
+    var object = {
+      x: datas2[i].x,
+      y: datas2[i].y
+    }
+    newData2.push(object);
+  }
+
+  console.log(newData2, 'newData2');
+
+  newData2 = newData2.sort(function (a, b) {
+      return (a.x + a.y) - (b.x + b.y);
+  });
+
+  var max = 1;
+  var result = [];
+
+  var c = 1;
+  var x = newData2[0].x;
+  var y = newData2[0].y;
+
+
+  for (var i = 1; i < newData2.length; i++) {
+      var t = Math.abs((newData2[i].x + newData2[i].y) - (newData2[i-1].x + newData2[i-1].y));
+
+      console.log(i, t)
+
+      if (t > max) {
+          var obj = {
+              x: x / c,
+              y: y / c,
+              r: y / divider2
+          };
+
+          result.push(obj);
+
+          x = newData2[i].x;
+          y = newData2[i].y;
+          c = 1;
+      } else {
+          x += newData2[i].x;
+          y += newData2[i].y;
+          c++;
+      }
+  }
+
+  result.push({
+      x: x / c,
+      y: y / c,
+      r: y / divider2
+  })
+
+
+  // 1st chart
+  var datas1 = {
     datasets: [
       {
-        data: newData,
+        data: newData1,
         backgroundColor:"#FF6384",
         hoverBackgroundColor: "#FF6384"
       }]
   };
-  var myBubbleChart = new Chart(ctx,{
+
+  // 2nd chart
+  var datas2 = {
+    datasets: [
+      {
+        data: result,
+        backgroundColor:"#FF6371",
+        hoverBackgroundColor: "#FF6384"
+      }]
+  };
+
+  // 1st chart
+  var myBubbleChart1 = new Chart(ctx1,{
     type: 'bubble',
-    data: datas,
+    data: datas1,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      legend: {
+        display: false
+      },
+      tooltips: {
+        enabled: true
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero:true,
+            callback: function(value, index, values) {
+              return value / 1000000 + " М";
+            }
+          }
+        }],
+        xAxes: [{
+          ticks: {
+            beginAtZero:true,
+            callback: function(value, index, values) {
+              return value / 1000000 + " М";
+            }
+          }
+        }]
+      }
+    }
+  });
+
+  // 2nd chart
+  var myBubbleChart2 = new Chart(ctx2, {
+    type: 'bubble',
+    data: datas2,
     options: {
       responsive: true,
       maintainAspectRatio: false,

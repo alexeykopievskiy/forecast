@@ -66,16 +66,15 @@
 
   // 2nd chart
   var newData2 = []
-  console.log(datas2, 'jhk');
+
   for(var i = 0; i < datas2.length; i++) {
     var object = {
       x: datas2[i].x,
-      y: datas2[i].y
+      y: datas2[i].y,
+      fillColor: '#000'
     }
     newData2.push(object);
   }
-
-  console.log(newData2, 'newData2');
 
   newData2 = newData2.sort(function (a, b) {
       return (a.x + a.y) - (b.x + b.y);
@@ -92,7 +91,7 @@
   for (var i = 1; i < newData2.length; i++) {
       var t = Math.abs((newData2[i].x + newData2[i].y) - (newData2[i-1].x + newData2[i-1].y));
 
-      console.log(i, t)
+      //console.log(i, t)
 
       if (t > max) {
           var obj = {
@@ -119,13 +118,38 @@
       r: y / divider2
   })
 
+  //parse radius
+  var arrRadius = []
+  for(var i = 0; i < result.length; i++) {
+    arrRadius.push(result[i].r)
+  }
+
+  //generate colors
+  var arrColors = []
+  for(var i = 0; i < arrRadius.length; i++) {
+    var max = arrRadius.reduce(function(a, b) {
+      return Math.max(a, b);
+    });
+    var min = arrRadius.reduce(function(a, b) {
+      return Math.min(a, b);
+    });
+
+
+    var rgbPercent = 255 / 100
+    var iterateElemPercent = (arrRadius[i] / max) * 100
+    var colorPercent = iterateElemPercent * rgbPercent
+
+    var colorStr = 'rgb(' + Math.round(colorPercent) + ', 0, ' + Math.round(255 - colorPercent) +')'
+
+    arrColors.push(colorStr)
+  }
 
   // 1st chart
   var datas1 = {
     datasets: [
       {
         data: newData1,
-        backgroundColor:"#FF6384",
+        backgroundColor: '#7DAE0F',
         hoverBackgroundColor: "#FF6384"
       }]
   };
@@ -135,7 +159,7 @@
     datasets: [
       {
         data: result,
-        backgroundColor:"#FF6371",
+        backgroundColor: arrColors,
         hoverBackgroundColor: "#FF6384"
       }]
   };
